@@ -4,12 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "prestart": "npm install",
+    "start": "webpack serve --config webpack.dev.js",
     "test": "jest",
     "dev-server": "forever server.js",
     "dev-server-watch": "forever -w server.js",
     "lint": "eslint .",
-    "start": "webpack serve --config webpack.dev.js",
     "build": "webpack --config webpack.prod.js"
   },
   "repository": {

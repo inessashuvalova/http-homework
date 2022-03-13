@@ -1,4 +1,4 @@
-const sendRequest = require('./sendRequest');
+const sendRequest = require('./sendReq');
 
 module.exports = class HelpDesk {
   constructor() {

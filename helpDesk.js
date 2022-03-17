@@ -1,4 +1,4 @@
-const sendRequest = require('./sendReq');
+const sendReq = require('./sendReq');
 
 module.exports = class HelpDesk {
   constructor() {
@@ -31,7 +31,7 @@ module.exports = class HelpDesk {
       editForm.addEventListener('submit', ((evt) => {
         evt.preventDefault();
         const formData = new FormData(evt.target);
-        sendRequest(document.body, 'POST', { method: 'createTicket' }, () => {
+        sendReq(document.body, 'POST', { method: 'createTicket' }, () => {
           editWindow.remove();
           document.body.dispatchEvent(refresh);
         }, formData);
@@ -45,7 +45,7 @@ module.exports = class HelpDesk {
     document.body.addEventListener('datarefresh', () => {
       document.querySelectorAll('.ticket').forEach((elem) => elem.remove());
 
-      sendRequest(document.body, 'GET', { method: 'allTickets' }, (tickets) => {
+      sendReq(document.body, 'GET', { method: 'allTickets' }, (tickets) => {
         tickets.forEach((ticket) => {
           const tic = document.createElement('div');
           tic.className = 'ticket';
@@ -57,16 +57,16 @@ module.exports = class HelpDesk {
             const desc = document.querySelector('.ticket-description');
 
             if (desc && desc.closest('.ticket') === tic) desc.remove();
-              else if ((desc && desc.closest('.ticket') !== tic) || !desc) {
-                if ((desc && desc.closest('.ticket') !== tic)) desc.remove();
-                  sendRequest(tic, 'GET', { method: 'ticketById' }, (data) => {
-                  const descriptionTkt = document.createElement('span');
-                  descriptionTkt.className = 'ticket-description';
-                  descriptionTkt.innerText = data.description;
-                  tic.insertAdjacentElement('beforeend', descriptionTkt);
-                  descriptionTkt.addEventListener('click', (evt) => {
-                    evt.preventDefault();
-                    descriptionTkt.remove();
+            else if ((desc && desc.closest('.ticket') !== tic) || !desc) {
+              if ((desc && desc.closest('.ticket') !== tic)) desc.remove();
+              sendReq(tic, 'GET', { method: 'ticketById' }, (data) => {
+                const descriptionTkt = document.createElement('span');
+                descriptionTkt.className = 'ticket-description';
+                descriptionTkt.innerText = data.description;
+                tic.insertAdjacentElement('beforeend', descriptionTkt);
+                descriptionTkt.addEventListener('click', (evt) => {
+                  evt.preventDefault();
+                  descriptionTkt.remove();
                 });
               });
             }
@@ -85,11 +85,11 @@ module.exports = class HelpDesk {
             evt.preventDefault();
 
             const data = new FormData();
-              if (ev.target.checked) data.append('status', true);
-                else data.append('status', false);
-                  sendRequest(tic, 'POST', { method: 'changeStatus' }, () => { 
-                    document.body.dispatchEvent(refresh); 
-                    }, data);
+            if (ev.target.checked) data.append('status', true);
+            else data.append('status', false);
+            sendReq(tic, 'POST', { method: 'changeStatus' }, () => {
+              document.body.dispatchEvent(refresh);
+            }, data);
           });
 
           const ticketInfo = document.createElement('div');
@@ -118,7 +118,7 @@ module.exports = class HelpDesk {
             document.body.appendChild(editWindow);
             document.querySelector('#delete-ticket').addEventListener('click', (delEv) => {
               delEv.preventDefault();
-              sendRequest(tic, 'POST', { method: 'deleteTicket' }, () => {
+              sendReq(tic, 'POST', { method: 'deleteTicket' }, () => {
                 editWindow.remove();
                 document.body.dispatchEvent(refresh);
               });
@@ -135,7 +135,7 @@ module.exports = class HelpDesk {
           ticketInfo.insertAdjacentElement('beforeend', editTkt);
           editTkt.addEventListener('click', (editEv) => {
             editEv.preventDefault();
-            sendRequest(tic, 'GET', { method: 'ticketById' }, (data) => {
+            sendReq(tic, 'GET', { method: 'ticketById' }, (data) => {
               const editWindow = document.createElement('div');
               editWindow.className = 'modal';
               editWindow.innerHTML = `<div class="modal-content">
@@ -154,7 +154,7 @@ module.exports = class HelpDesk {
               editForm.addEventListener('submit', ((evt) => {
                 evt.preventDefault();
                 const formData = new FormData(ev.target);
-                sendRequest(tic, 'POST', { method: 'updateTicket' }, () => {
+                sendReq(tic, 'POST', { method: 'updateTicket' }, () => {
                   editWindow.remove();
                   document.body.dispatchEvent(refresh);
                 }, formData);

@@ -1,4 +1,4 @@
-const baseUrl = 'https://http-homework.herokuapp.com/';
+const baseUrl = 'https://apricot-pie-12733.herokuapp.com/';
 
 module.exports = function sendRequest(object, method, options, callbackfn, data = new FormData()) {
   const params = new URLSearchParams();

@@ -16,6 +16,9 @@
     "type": "git",
     "url": "git+https://github.com/inessashuvalova/http-homework.git"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {

@@ -19,7 +19,7 @@
   "engines": {
     "node": "16.x"
   },
-  "author": "",
+  "author": "Inessa Shuvalova",
   "license": "ISC",
   "devDependencies": {
     "@babel/cli": "^7.17.6",
